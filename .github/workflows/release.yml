@@ -1,0 +1,94 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest
+            args: "--target aarch64-apple-darwin"
+            rust_target: aarch64-apple-darwin
+            label: macOS-arm64
+          - platform: macos-latest
+            args: "--target x86_64-apple-darwin"
+            rust_target: x86_64-apple-darwin
+            label: macOS-x64
+          - platform: ubuntu-22.04
+            args: ""
+            rust_target: ""
+            label: Linux-x64
+          - platform: windows-latest
+            args: ""
+            rust_target: ""
+            label: Windows-x64
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust_target }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: "Dev Password Tool ${{ github.ref_name }}"
+          releaseBody: |
+            ## Dev Password Tool ${{ github.ref_name }}
+
+            ### Downloads
+            - **macOS (Apple Silicon):** `.dmg` (aarch64)
+            - **macOS (Intel):** `.dmg` (x64)
+            - **Windows:** `.msi` / `.exe`
+            - **Linux:** `.deb` / `.AppImage`
+
+            ### What's included
+            - 🔐 Password Generator with entropy estimation
+            - 🔑 SSH Key Generator (Ed25519 / RSA)
+            - 🎫 Secure Token Generator (hex, base64, url-safe)
+            - #️⃣ Hash Generator (SHA-256, SHA-512, bcrypt)
+            - 🔄 Base64 Encode/Decode Tool
+
+            All cryptographic operations run in Rust. 100% offline.
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.args }}
