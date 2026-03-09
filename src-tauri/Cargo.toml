@@ -1,6 +1,6 @@
 [package]
 name = "dev-password-tool"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 description = "A lightweight, offline-first desktop cryptographic utility for developers"
 authors = ["Dev Password Tool"]
