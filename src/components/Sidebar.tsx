@@ -12,8 +12,9 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
         <aside className="w-56 bg-dark-900 border-r border-dark-700 flex flex-col no-select shrink-0">
             {/* App title */}
             <div className="px-4 py-5 border-b border-dark-700">
-                <h1 className="text-lg font-bold text-dark-100 tracking-tight">
-                    🛡️ Dev Password Tool
+                <h1 className="text-lg font-bold text-dark-100 tracking-tight flex items-center gap-2">
+                    <img src="/icon.svg" alt="Dev Password Tool" className="w-6 h-6" />
+                    Dev Password Tool
                 </h1>
                 <p className="text-xs text-dark-400 mt-1">Crypto utilities for devs</p>
             </div>
