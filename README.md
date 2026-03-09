@@ -136,6 +136,26 @@ All cryptographic operations execute in Rust using:
 - `ssh-key` — SSH key generation (Ed25519, RSA)
 - `base64` + `hex` — encoding
 
+## Installing from Release
+
+Download the latest release for your platform from [Releases](https://github.com/nicodevvv/dev-password-tool/releases).
+
+- **Windows:** run the `.msi` installer or the `.exe`
+- **Linux:** install the `.deb` with `sudo dpkg -i` or run the `.AppImage` directly
+- **macOS:** open the `.dmg` and drag the app to Applications
+
+### macOS: "App is damaged and can't be opened"
+
+Since the app is not signed with an Apple Developer certificate, macOS Gatekeeper may block it. This is expected for unsigned apps distributed outside the App Store.
+
+To fix it, open Terminal and run:
+
+```bash
+xattr -cr /Applications/Dev\ Password\ Tool.app
+```
+
+Then open the app normally.
+
 ## Running Tests
 
 ```bash
