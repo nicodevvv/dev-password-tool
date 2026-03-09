@@ -1,0 +1,31 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo circular con degradado -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2c3e50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradLock" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f1c40f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f39c12;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="256" cy="256" r="256" fill="url(#grad1)" />
+  
+  <!-- Arco del candado -->
+  <path d="M156 180 V 140 A 100 100 0 0 1 356 140 V 180" 
+        stroke="#bdc3c7" stroke-width="40" fill="none" stroke-linecap="round"/>
+  
+  <!-- Cuerpo del candado -->
+  <rect x="116" y="180" width="280" height="220" rx="40" ry="40" fill="url(#gradLock)" />
+  
+  <!-- Elementos de código / contraseña -->
+  <g fill="#2c3e50" font-family="monospace" font-weight="bold" text-anchor="middle">
+    <!-- Símbolos de código representando la parte "Dev" -->
+    <text x="256" y="290" font-size="80">&lt; /&gt;</text>
+    
+    <!-- Asteriscos representando la parte "Password" -->
+    <text x="256" y="360" font-size="100">***</text>
+  </g>
+</svg>
